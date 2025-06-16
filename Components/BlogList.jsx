@@ -35,10 +35,10 @@ const BlogList = () => {
   return (
     <section className="px-4 py-12 text-gray-800">
       {/* Title */}
-      <div className="mb-10 text-center" data-aos="fade-down">
+      {/* <div className="mb-10 text-center" data-aos="fade-down">
         <h2 className="font-mono text-3xl font-bold md:text-4xl">Latest Blogs</h2>
         <p className="font-mono text-gray-500">Explore trending articles across categories</p>
-      </div>
+      </div> */}
 
       {/* Filters */}
       <div className="flex flex-wrap justify-center gap-4 mb-10" data-aos="fade-up">
