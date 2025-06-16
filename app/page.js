@@ -3,6 +3,7 @@
 import BannerCarousel from "@/Components/BannerCarousel";
 import BlogList from "@/Components/BlogList";
 import Header from "@/Components/Header";
+import NewsletterSection from "@/Components/NewsletterSection";
 import Image from "next/image";
 
 
@@ -12,6 +13,7 @@ export default function Home() {
       <BannerCarousel></BannerCarousel>
       <Header/>
       <BlogList />
+      <NewsletterSection></NewsletterSection>
       {/* <Footer/> */}
     </main>
   );
