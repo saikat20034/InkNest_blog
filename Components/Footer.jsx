@@ -43,7 +43,7 @@ const Footer = () => {
             <h3 className="mb-4 font-semibold text-white">Legal</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/privacy-policy" className="transition hover:text-white">
+                <Link href="/privacy" className="transition hover:text-white">
                   Privacy Policy
                 </Link>
               </li>
@@ -53,7 +53,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/cookies" className="transition hover:text-white">
+                <Link href="/cookie" className="transition hover:text-white">
                   Cookie Policy
                 </Link>
               </li>

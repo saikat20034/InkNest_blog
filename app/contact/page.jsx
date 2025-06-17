@@ -10,6 +10,7 @@ export default function ContactPage() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,59 +18,98 @@ export default function ContactPage() {
       ...prev,
       [name]: value,
     }));
+    setError('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    if (!formData.name || !formData.email || !formData.message) {
+      setError('All fields are required.');
+      return;
+    }
+
+    console.log(formData); // Replace with actual API call
     setSubmitted(true);
     setFormData({ name: '', email: '', message: '' });
-
-    // You can connect this to an API like Formspree, Nodemailer, etc.
   };
 
   return (
-    <div className="min-h-screen px-4 py-16 bg-gray-100 dark:bg-gray-900">
-      <div className="max-w-2xl p-8 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
-        <h1 className="mb-6 text-3xl font-bold text-center">Contact Us</h1>
+    <div className="min-h-screen px-4 py-16 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-3xl p-8 mx-auto bg-white shadow-2xl rounded-xl dark:bg-gray-900">
+        <h1 className="mb-6 text-4xl font-extrabold text-center text-gray-800 dark:text-white">
+          Contact Us
+        </h1>
+        <p className="mb-8 text-center text-gray-600 dark:text-gray-300">
+          Have questions or feedback? We'd love to hear from you!
+        </p>
+
         {submitted && (
-          <p className="mb-4 font-medium text-center text-green-600">
-            Thank you for reaching out. We'll get back to you soon!
-          </p>
+          <div className="mb-4 font-medium text-center text-green-600">
+            ✅ Thank you! Your message has been sent.
+          </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            name="name"
-            type="text"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-          />
-          <input
-            name="email"
-            type="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-          />
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            rows="5"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white"
-          ></textarea>
+
+        {error && (
+          <div className="mb-4 font-medium text-center text-red-500">
+            ⚠️ {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="name" className="block mb-2 font-medium text-gray-700 dark:text-gray-200">
+              Name
+            </label>
+            <input
+              name="name"
+              id="name"
+              type="text"
+              placeholder="Your Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block mb-2 font-medium text-gray-700 dark:text-gray-200">
+              Email
+            </label>
+            <input
+              name="email"
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="message" className="block mb-2 font-medium text-gray-700 dark:text-gray-200">
+              Message
+            </label>
+            <textarea
+              name="message"
+              id="message"
+              rows="5"
+              placeholder="Type your message..."
+              value={formData.message}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              required
+            ></textarea>
+          </div>
+
           <button
             type="submit"
-            className="w-full py-2 font-semibold text-white transition bg-blue-600 rounded hover:bg-blue-700"
+            className="w-full py-3 text-lg font-bold text-white transition-all duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
           >
-            Send Message
+            ✉️ Send Message
           </button>
         </form>
       </div>
