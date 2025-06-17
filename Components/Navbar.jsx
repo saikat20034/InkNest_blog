@@ -3,12 +3,16 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FiMenu, FiX, FiMoon, FiSun } from 'react-icons/fi';
+import { onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [user, setUser] = useState(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
   const toggleTheme = () => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
@@ -24,6 +28,14 @@ const Navbar = () => {
     document.documentElement.classList.toggle('dark', useDark);
   }, []);
 
+  // Firebase auth listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Features', href: '/#features' },
@@ -31,15 +43,32 @@ const Navbar = () => {
     { name: 'Contact', href: '/#contact' },
   ];
 
+  const handleLogout = async () => {
+    await signOut(auth);
+  };
+
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      setMenuOpen(false);
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md dark:bg-gray-900 dark:text-white">
       <div className="flex items-center justify-between px-5 py-4 mx-auto max-w-7xl md:px-12 lg:px-28">
-        <Link href="/" className="font-mono text-xl font-bold text-black dark:text-white md:text-2xl">
+        <Link
+          href="/"
+          className="font-mono text-xl font-bold text-black dark:text-white md:text-2xl"
+        >
           InkNest⚡
         </Link>
 
         <nav className="items-center hidden gap-8 font-mono text-black dark:text-white md:flex">
-          {navLinks.map((link) => (
+          {navLinks.map(link => (
             <Link
               key={link.name}
               href={link.href}
@@ -58,22 +87,57 @@ const Navbar = () => {
           >
             {isDarkMode ? <FiSun /> : <FiMoon />}
           </button>
-          <Link
-            href="/get-started"
-            className="px-6 py-2 font-mono transition duration-300 bg-gray-600 border border-black rounded-md hover:bg-black hover:text-white"
-          >
-            Get Started
-          </Link>
+
+          {user ? (
+            <div className="flex items-center gap-3">
+              <img
+                src={user.photoURL || '/default-avatar.png'}
+                alt="User"
+                className="w-8 h-8 rounded-full"
+              />
+              <span className="text-sm">{user.displayName || user.email}</span>
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1 text-sm border border-gray-700 rounded hover:bg-red-600 hover:text-white"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={handleGoogleLogin}
+                className="px-4 py-2 text-sm border border-red-500 rounded hover:bg-red-500 hover:text-white"
+              >
+                Sign in with Google
+              </button>
+              <Link
+                href="/login"
+                className="px-4 py-2 text-sm border border-black rounded hover:bg-black hover:text-white"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="px-4 py-2 text-sm border border-black rounded hover:bg-black hover:text-white"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
-        <button onClick={toggleMenu} className="text-2xl text-black dark:text-white md:hidden">
+        <button
+          onClick={toggleMenu}
+          className="text-2xl text-black dark:text-white md:hidden"
+        >
           {menuOpen ? <FiX /> : <FiMenu />}
         </button>
       </div>
 
       {menuOpen && (
         <div className="px-5 pb-4 space-y-2 font-mono text-black bg-white dark:text-white dark:bg-gray-900 md:hidden">
-          {navLinks.map((link) => (
+          {navLinks.map(link => (
             <Link
               key={link.name}
               href={link.href}
@@ -83,23 +147,54 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <div className="flex items-center justify-between mt-2">
-            <Link
-              href="/get-started"
-              onClick={() => setMenuOpen(false)}
-              className="block w-full px-4 py-2 text-center border border-black rounded-md hover:bg-black hover:text-white"
-            >
-              Get Started
-            </Link>
-            <button
-  onClick={() => {
-    document.documentElement.classList.toggle('dark');
-  }}
-  className="btn"
->
-  Toggle Theme
-</button>
 
+          <div className="mt-4 space-y-2">
+            {user ? (
+              <>
+                <div className="flex items-center gap-3">
+                  <img
+                    src={user.photoURL || '/default-avatar.png'}
+                    alt="User"
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <span className="text-sm">
+                    {user.displayName || user.email}
+                  </span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full px-4 py-2 text-center border border-black rounded-md hover:bg-red-600 hover:text-white"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    handleGoogleLogin();
+                    setMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 mb-2 text-center border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+                >
+                  Sign in with Google
+                </button>
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="block w-full px-4 py-2 mb-2 text-center border border-black rounded-md hover:bg-black hover:text-white"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setMenuOpen(false)}
+                  className="block w-full px-4 py-2 text-center border border-black rounded-md hover:bg-black hover:text-white"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

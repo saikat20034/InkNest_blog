@@ -4,6 +4,7 @@ import BannerCarousel from "@/Components/BannerCarousel";
 import BlogList from "@/Components/BlogList";
 import BlogStats from "@/Components/BlogStats";
 import ChatSection from "@/Components/Chat";
+import Faq from "@/Components/Faqs";
 import Header from "@/Components/Header";
 import NewsletterSection from "@/Components/NewsletterSection";
 import TodayInHistory from "@/Components/TodayInHistory";
@@ -20,6 +21,7 @@ export default function Home() {
       <NewsletterSection></NewsletterSection>
       <ChatSection></ChatSection>
       <TodayInHistory></TodayInHistory>
+      <Faq></Faq>
       {/* <Footer/> */}
     </main>
   );
