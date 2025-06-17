@@ -5,23 +5,19 @@ import { useState, useRef, useEffect } from 'react';
 
 export default function OpenRouterChat() {
   const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      content:
-        "Hello! I'm your AI assistant powered by DeepSeek through OpenRouter.",
-    },
+    { role: 'assistant', content: 'Hello! I\'m your AI assistant powered by DeepSeek through OpenRouter. How can I help you today?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const messagesEndRef = useRef(null);
 
-  // Auto-scroll to bottom
+  // Auto-scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
@@ -34,27 +30,21 @@ export default function OpenRouterChat() {
 
     try {
       // Call OpenRouter API
-      const response = await fetch(
-        'https://openrouter.ai/api/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${
-              process.env.NEXT_PUBLIC_OPENROUTER_API_KEY ||
-              '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'
-            }`,
-            'HTTP-Referer': window.location.href, // Optional for rankings
-            'X-Title': document.title || 'My Next.js Blog', // Optional for rankings
-          },
-          body: JSON.stringify({
-            model: 'deepseek/deepseek-chat-v3-0324:free',
-            messages: [...messages, userMessage],
-            temperature: 0.7,
-            max_tokens: 1024,
-          }),
-        }
-      );
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer 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`,
+          'HTTP-Referer': window.location.href,
+          'X-Title': document.title || 'My Next.js Blog'
+        },
+        body: JSON.stringify({
+          model: 'deepseek/deepseek-chat-v3-0324:free',
+          messages: [...messages, userMessage],
+          temperature: 0.7,
+          max_tokens: 1024
+        })
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -68,13 +58,10 @@ export default function OpenRouterChat() {
     } catch (err) {
       console.error('OpenRouter API error:', err);
       setError(err.message);
-      setMessages(prev => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: 'Sorry, I encountered an error. Please try again later.',
-        },
-      ]);
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Sorry, I encountered an error. Please try again later.'
+      }]);
     } finally {
       setIsLoading(false);
     }
@@ -83,11 +70,9 @@ export default function OpenRouterChat() {
   return (
     <div className="max-w-2xl p-4 mx-auto bg-white border rounded-lg shadow-lg dark:bg-gray-800">
       <div className="flex items-center mb-4">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-          AI Chat Assistant
-        </h2>
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white">AI Chat Assistant</h2>
         <span className="px-2 py-1 ml-2 text-xs text-purple-800 bg-purple-100 rounded dark:bg-purple-900 dark:text-purple-200">
-          Powered by OpenRouter
+          Powered by DeepSeek
         </span>
       </div>
 
@@ -109,14 +94,8 @@ export default function OpenRouterChat() {
           <div className="mr-auto bg-gray-200 dark:bg-gray-600 p-3 rounded-lg max-w-[80%]">
             <div className="flex space-x-2">
               <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-              <div
-                className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
-                style={{ animationDelay: '0.2s' }}
-              ></div>
-              <div
-                className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
-                style={{ animationDelay: '0.4s' }}
-              ></div>
+              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
             </div>
           </div>
         )}
@@ -133,7 +112,7 @@ export default function OpenRouterChat() {
         <input
           type="text"
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
           className="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           placeholder="Type your message..."
           disabled={isLoading}
@@ -143,7 +122,15 @@ export default function OpenRouterChat() {
           className="p-2 text-white bg-purple-500 rounded hover:bg-purple-600 disabled:bg-purple-300 dark:disabled:bg-purple-800"
           disabled={isLoading || !input.trim()}
         >
-          {isLoading ? 'Thinking...' : 'Send'}
+          {isLoading ? (
+            <span className="flex items-center">
+              <svg className="w-4 h-4 mr-2 -ml-1 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Thinking...
+            </span>
+          ) : 'Send'}
         </button>
       </form>
 
