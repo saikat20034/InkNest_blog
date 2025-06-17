@@ -105,12 +105,12 @@ const Navbar = () => {
             </div>
           ) : (
             <>
-              <button
+              {/* <button
                 onClick={handleGoogleLogin}
                 className="px-4 py-2 text-sm border border-red-500 rounded hover:bg-red-500 hover:text-white"
               >
                 Sign in with Google
-              </button>
+              </button> */}
               <Link
                 href="/login"
                 className="px-4 py-2 text-sm border border-black rounded hover:bg-black hover:text-white"

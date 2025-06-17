@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
@@ -15,6 +15,15 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      router.push('/');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
       router.push('/');
     } catch (err) {
       setError(err.message);
@@ -48,6 +57,19 @@ const LoginPage = () => {
         >
           Login
         </button>
+
+        <div className="flex items-center justify-center">
+          <span className="text-sm text-gray-500">OR</span>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full py-2 font-bold text-white bg-red-500 rounded hover:bg-red-600"
+        >
+          Login with Google
+        </button>
+
         <p className="text-sm text-center">
           Don't have an account? <a href="/signup" className="text-blue-500">Sign Up</a>
         </p>
