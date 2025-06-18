@@ -9,9 +9,9 @@ module.exports = {
     extend: {},
   },
   plugins: [require('daisyui')],
+  darkMode: 'class', // still required
   daisyui: {
-    themes: ['light', 'dark'], // enable both light and dark themes
+    themes: ['light', 'dark'],
     darkTheme: 'dark',
   },
-  darkMode: 'class', // enable toggling via class
 };

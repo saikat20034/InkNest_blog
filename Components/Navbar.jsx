@@ -22,20 +22,25 @@ const Navbar = () => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
     localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark', newTheme);
+    if (newTheme) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const useDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
     setIsDarkMode(useDark);
-    document.documentElement.classList.toggle('dark', useDark);
+    if (useDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, []);
 
-  // Firebase auth listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser);
@@ -71,8 +76,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md dark:bg-gray-900 dark:text-white">
-     <div className="flex items-center justify-between px-3 py-4 mx-auto max-w-7xl md:px-6 lg:px-1">
-
+      <div className="flex items-center justify-between px-3 py-4 mx-auto max-w-7xl md:px-6 lg:px-1">
         <Link
           href="/"
           className="font-mono text-xl font-bold text-black dark:text-white md:text-2xl"
@@ -90,7 +94,6 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-
           {user &&
             privateLinks.map(link => (
               <Link
