@@ -117,12 +117,16 @@ const Navbar = () => {
 
           {user ? (
             <div className="flex items-center gap-3">
-              <img
-                src={user.photoURL || '/default-avatar.png'}
-                alt="User"
-                className="w-8 h-8 rounded-full"
-              />
-              <span className="text-sm">{user.displayName || user.email}</span>
+              <Link href="/profile" className="flex items-center gap-2 cursor-pointer">
+                <img
+                  src={user.photoURL || '/default-avatar.png'}
+                  alt="User"
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="text-sm hover:underline">
+                  {user.displayName || user.email}
+                </span>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="px-3 py-1 text-sm border border-gray-700 rounded hover:bg-red-600 hover:text-white"
@@ -184,7 +188,11 @@ const Navbar = () => {
           <div className="mt-4 space-y-2">
             {user ? (
               <>
-                <div className="flex items-center gap-3">
+                <Link
+                  href="/app/profile/page.jsx"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-3 py-2 border-b border-gray-200 dark:border-gray-700 hover:text-blue-600"
+                >
                   <img
                     src={user.photoURL || '/default-avatar.png'}
                     alt="User"
@@ -193,7 +201,7 @@ const Navbar = () => {
                   <span className="text-sm">
                     {user.displayName || user.email}
                   </span>
-                </div>
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="w-full px-4 py-2 text-center border border-black rounded-md hover:bg-red-600 hover:text-white"
