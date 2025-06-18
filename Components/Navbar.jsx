@@ -3,7 +3,12 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FiMenu, FiX, FiMoon, FiSun } from 'react-icons/fi';
-import { onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  onAuthStateChanged,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
 const Navbar = () => {
@@ -22,7 +27,9 @@ const Navbar = () => {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
     const useDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
     setIsDarkMode(useDark);
     document.documentElement.classList.toggle('dark', useDark);
@@ -36,11 +43,16 @@ const Navbar = () => {
     return () => unsubscribe();
   }, []);
 
-  const navLinks = [
+  const commonLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Features', href: '/#features' },
-    { name: 'Pricing', href: '/#pricing' },
+    { name: 'Features', href: '/features' },
+    { name: 'Pricing', href: '/pricing' },
     { name: 'Contact', href: '/contact' },
+  ];
+
+  const privateLinks = [
+    { name: 'Add Blog', href: '/add-blog' },
+    { name: 'My Added Blog', href: '/my-added-blog' },
   ];
 
   const handleLogout = async () => {
@@ -68,7 +80,7 @@ const Navbar = () => {
         </Link>
 
         <nav className="items-center hidden gap-8 font-mono text-black dark:text-white md:flex">
-          {navLinks.map(link => (
+          {commonLinks.map(link => (
             <Link
               key={link.name}
               href={link.href}
@@ -77,6 +89,17 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+
+          {user &&
+            privateLinks.map(link => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="transition duration-200 hover:text-blue-600"
+              >
+                {link.name}
+              </Link>
+            ))}
         </nav>
 
         <div className="items-center hidden gap-4 md:flex">
@@ -105,12 +128,6 @@ const Navbar = () => {
             </div>
           ) : (
             <>
-              {/* <button
-                onClick={handleGoogleLogin}
-                className="px-4 py-2 text-sm border border-red-500 rounded hover:bg-red-500 hover:text-white"
-              >
-                Sign in with Google
-              </button> */}
               <Link
                 href="/login"
                 className="px-4 py-2 text-sm border border-black rounded hover:bg-black hover:text-white"
@@ -137,7 +154,7 @@ const Navbar = () => {
 
       {menuOpen && (
         <div className="px-5 pb-4 space-y-2 font-mono text-black bg-white dark:text-white dark:bg-gray-900 md:hidden">
-          {navLinks.map(link => (
+          {commonLinks.map(link => (
             <Link
               key={link.name}
               href={link.href}
@@ -147,6 +164,18 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+
+          {user &&
+            privateLinks.map(link => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="block py-2 transition border-b border-gray-200 dark:border-gray-700 hover:text-blue-600"
+              >
+                {link.name}
+              </Link>
+            ))}
 
           <div className="mt-4 space-y-2">
             {user ? (
