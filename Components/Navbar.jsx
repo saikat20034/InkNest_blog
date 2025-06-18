@@ -71,7 +71,8 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md dark:bg-gray-900 dark:text-white">
-      <div className="flex items-center justify-between px-5 py-4 mx-auto max-w-7xl md:px-12 lg:px-28">
+     <div className="flex items-center justify-between px-3 py-4 mx-auto max-w-7xl md:px-6 lg:px-1">
+
         <Link
           href="/"
           className="font-mono text-xl font-bold text-black dark:text-white md:text-2xl"
