@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { blog_data } from "@/Assets/assets";
+import { blog_data as defaultBlogs } from "@/Assets/assets";
 import BlogItem from "./BlogItem";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -12,12 +12,19 @@ const itemsPerPage = 8;
 const BlogList = () => {
   const [menu, setMenu] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
+  const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
     AOS.init({ duration: 1000 });
+
+    const localBlogs = JSON.parse(localStorage.getItem("userBlogs")) || [];
+    const merged = [...localBlogs, ...defaultBlogs];
+    setBlogs(merged);
   }, []);
 
-  const filteredBlogs = menu === 'All' ? blog_data : blog_data.filter(item => item.category === menu);
+  const filteredBlogs = menu === 'All'
+    ? blogs
+    : blogs.filter(item => item.category === menu);
 
   const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
   const paginatedBlogs = filteredBlogs.slice(
@@ -34,13 +41,7 @@ const BlogList = () => {
 
   return (
     <section className="px-4 py-12 text-gray-800">
-      {/* Title */}
-      {/* <div className="mb-10 text-center" data-aos="fade-down">
-        <h2 className="font-mono text-3xl font-bold md:text-4xl">Latest Blogs</h2>
-        <p className="font-mono text-gray-500">Explore trending articles across categories</p>
-      </div> */}
-
-      {/* Filters */}
+      {/* Filter Buttons */}
       <div className="flex flex-wrap justify-center gap-4 mb-10" data-aos="fade-up">
         {categories.map((cat) => (
           <button
@@ -60,11 +61,11 @@ const BlogList = () => {
         ))}
       </div>
 
-      {/* Blog Cards */}
+      {/* Blog Grid */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {paginatedBlogs.length > 0 ? (
           paginatedBlogs.map((item, index) => (
-            <div data-aos="fade-up" key={index}>
+            <div data-aos="fade-up" key={item.id || index}>
               <BlogItem
                 id={item.id}
                 image={item.image}

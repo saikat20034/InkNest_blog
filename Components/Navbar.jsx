@@ -57,7 +57,7 @@ const Navbar = () => {
 
   const privateLinks = [
     { name: 'Add Blog', href: '/add-blog' },
-    { name: 'My Added Blog', href: '/my-added-blog' },
+    { name: 'My Added Blog', href: '/added-blog' },
   ];
 
   const handleLogout = async () => {
