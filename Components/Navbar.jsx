@@ -107,13 +107,13 @@ const Navbar = () => {
         </nav>
 
         <div className="items-center hidden gap-4 md:flex">
-          <button
+          {/* <button
             onClick={toggleTheme}
             className="text-xl transition-colors hover:text-yellow-400"
             aria-label="Toggle Theme"
           >
             {isDarkMode ? <FiSun /> : <FiMoon />}
-          </button>
+          </button> */}
 
           {user ? (
             <div className="flex items-center gap-3">
