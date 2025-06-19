@@ -12,7 +12,8 @@ const Footer = () => {
           {/* <Image src={assets.logo_light} alt="InkNest Logo" width={150} /> */}
           <h2 className="mb-3 text-3xl font-bold text-white">InkNest</h2>
           <p className="max-w-xs text-sm text-center md:text-base md:text-left">
-            InkNest is your daily dose of inspiring stories, tech insights, and lifestyle tips. Dive in and stay informed with us.
+            InkNest is your daily dose of inspiring stories, tech insights, and
+            lifestyle tips. Dive in and stay informed with us.
           </p>
         </div>
 
@@ -20,19 +21,28 @@ const Footer = () => {
         <div className="flex justify-around md:justify-center md:gap-24 md:w-1/3">
           <div>
             <h3 className="mb-4 font-semibold text-white">Company</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-sm ">
               <li>
-                <Link href="/about" className="transition hover:text-white">
+                <Link
+                  href="/about"
+                  className="transition hover:text-orange-500"
+                >
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="transition hover:text-white">
+                <Link
+                  href="/blog"
+                  className="transition hover:text-orange-500"
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="transition hover:text-white">
+                <Link
+                  href="/contact"
+                  className="transition hover:text-orange-500"
+                >
                   Contact
                 </Link>
               </li>
@@ -43,17 +53,26 @@ const Footer = () => {
             <h3 className="mb-4 font-semibold text-white">Legal</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/privacy" className="transition hover:text-white">
+                <Link
+                  href="/privacy"
+                  className="transition hover:text-orange-500"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="transition hover:text-white">
+                <Link
+                  href="/terms"
+                  className="transition hover:text-orange-500"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/cookie" className="transition hover:text-white">
+                <Link
+                  href="/cookie"
+                  className="transition hover:text-orange-500"
+                >
                   Cookie Policy
                 </Link>
               </li>
@@ -65,14 +84,44 @@ const Footer = () => {
         <div className="flex flex-col items-center md:items-end md:w-1/3">
           <h3 className="mb-4 font-semibold text-white">Follow Us</h3>
           <div className="flex gap-6">
-            <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <Image src={assets.facebook_icon} alt="Facebook" width={30} height={30} />
+            <Link
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              <Image
+                src={assets.facebook_icon}
+                alt="Facebook"
+                width={30}
+                height={30}
+              />
             </Link>
-            <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-              <Image src={assets.twitter_icon} alt="Twitter" width={30} height={30} />
+            <Link
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+            >
+              <Image
+                src={assets.twitter_icon}
+                alt="Twitter"
+                width={30}
+                height={30}
+              />
             </Link>
-            <Link href="https://plus.google.com" target="_blank" rel="noopener noreferrer" aria-label="Google Plus">
-              <Image src={assets.googleplus_icon} alt="Google Plus" width={30} height={30} />
+            <Link
+              href="https://plus.google.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Google Plus"
+            >
+              <Image
+                src={assets.googleplus_icon}
+                alt="Google Plus"
+                width={30}
+                height={30}
+              />
             </Link>
           </div>
           <p className="mt-6 text-xs text-center text-gray-500 md:text-right">

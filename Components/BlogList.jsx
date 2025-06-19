@@ -39,6 +39,11 @@ const BlogList = () => {
     }
   };
 
+  const getShortDescription = (text) => {
+    const words = text.split(" ");
+    return words.slice(0, 5).join(" ") + (words.length > 50 ? "..." : "");
+  };
+
   return (
     <section className="px-4 py-12 text-gray-800">
       {/* Filter Buttons */}
@@ -71,7 +76,7 @@ const BlogList = () => {
                 image={item.image}
                 title={item.title}
                 category={item.category}
-                description={item.description}
+                description={getShortDescription(item.description)}
               />
             </div>
           ))
