@@ -89,7 +89,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               href={link.href}
-              className="transition duration-200 hover:text-blue-600"
+              className="transition duration-200 hover:text-orange-500"
             >
               {link.name}
             </Link>
@@ -99,7 +99,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="transition duration-200 hover:text-blue-600"
+                className="transition duration-200 hover:text-orange-500"
               >
                 {link.name}
               </Link>
@@ -138,13 +138,13 @@ const Navbar = () => {
             <>
               <Link
                 href="/login"
-                className="px-4 py-2 text-sm border border-black rounded hover:bg-black hover:text-white"
+                className="px-4 py-2 text-sm border border-black rounded hover:bg-orange-500 hover:text-white"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="px-4 py-2 text-sm border border-black rounded hover:bg-black hover:text-white"
+                className="px-4 py-2 text-sm border border-black rounded hover:bg-orange-500 hover:text-white"
               >
                 Sign Up
               </Link>
