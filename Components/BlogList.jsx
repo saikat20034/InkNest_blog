@@ -91,7 +91,7 @@ const BlogList = () => {
           <button
             onClick={() => changePage(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
+            className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 hover:text-orange-500"
           >
             Prev
           </button>
@@ -111,7 +111,7 @@ const BlogList = () => {
           <button
             onClick={() => changePage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50"
+            className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 hover:text-orange-500"
           >
             Next
           </button>

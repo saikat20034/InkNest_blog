@@ -9,11 +9,11 @@ const BlogItem = ({title,description,category,image,id}) => {
       <Link href={`/blogs/${id}`}>
       <Image src={image} alt="Blog Image" width={400} height={400} className="border-b border-gray-600" />
       </Link>
-      <p className="ml-5 mt-5 px-1 inline-block bg-black text-white">{category}</p>
+      <p className="inline-block px-1 mt-5 ml-5 text-white bg-black">{category}</p>
       <div className="p-5">
         <h4 className="mb-2 text-lg tracking-tight text-gray-800">{title}</h4>
-        <p className="mb-3 text-md tracking-tight text-gray-600">{description}</p>
-        <Link href={`/blogs/${id}`} className="inline-flex gap-4 items-center py-2 font-semibold ">Read More <FaArrowRight/> </Link>
+        <p className="mb-3 tracking-tight text-gray-600 text-md">{description}</p>
+        <Link href={`/blogs/${id}`} className="inline-flex items-center gap-4 py-2 font-semibold hover:text-orange-500">Read More <FaArrowRight/> </Link>
       </div>
     </div>
   );
