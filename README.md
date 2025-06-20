@@ -4,7 +4,7 @@ Welcome to **InkNest** — a sleek, user-friendly, and feature-rich blogging pla
 
 ## 🚀 Live Demo
 
-👉 [Visit InkNest Live]([https://your-deployment-url.com](http://ink-nest-blog.vercel.app/))
+👉 [Visit InkNest Live](http://ink-nest-blog.vercel.app/)
 
 ---
 
