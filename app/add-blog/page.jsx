@@ -57,7 +57,7 @@ const AddBlog = () => {
           name="category"
           value={blog.category}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full bg-gray-600 rounded borer p-2g bg"
         >
           <option value="Technology">Technology</option>
           <option value="Startup">Startup</option>

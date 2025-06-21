@@ -1,31 +1,46 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 const MyBlogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const router = useRouter();
+  const [editId, setEditId] = useState(null);
+  const [editedBlog, setEditedBlog] = useState({});
 
-  // Load blogs from localStorage on mount
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('userBlogs')) || [];
     setBlogs(saved);
   }, []);
 
-  // Delete blog
   const handleDelete = (id) => {
     const confirmDelete = confirm("Are you sure you want to delete this blog?");
     if (!confirmDelete) return;
-
     const updated = blogs.filter(blog => blog.id !== id);
     localStorage.setItem('userBlogs', JSON.stringify(updated));
     setBlogs(updated);
   };
 
-  // Go to edit page
-  const handleUpdate = (id) => {
-    router.push(`/edit-blog/${id}`);
+  const handleEditClick = (blog) => {
+    setEditId(blog.id);
+    setEditedBlog({ ...blog });
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditedBlog(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    const updatedBlogs = blogs.map(blog => blog.id === editId ? editedBlog : blog);
+    localStorage.setItem('userBlogs', JSON.stringify(updatedBlogs));
+    setBlogs(updatedBlogs);
+    setEditId(null);
+    setEditedBlog({});
+  };
+
+  const handleCancel = () => {
+    setEditId(null);
+    setEditedBlog({});
   };
 
   return (
@@ -47,27 +62,70 @@ const MyBlogs = () => {
               </tr>
             </thead>
             <tbody>
-              {blogs.map(blog => (
+              {blogs.map((blog) => (
                 <tr key={blog.id} className="text-center">
                   <td className="p-2 border">
                     <img src={blog.image} alt="img" className="object-cover w-20 rounded h-14" />
                   </td>
-                  <td className="p-2 border">{blog.title}</td>
-                  <td className="p-2 border">{blog.category}</td>
-                  <td className="p-2 border">{new Date(blog.date).toLocaleDateString()}</td>
+                  <td className="p-2 border">
+                    {editId === blog.id ? (
+                      <input
+                        name="title"
+                        value={editedBlog.title}
+                        onChange={handleEditChange}
+                        className="p-1 border rounded"
+                      />
+                    ) : (
+                      blog.title
+                    )}
+                  </td>
+                  <td className="p-2 border">
+                    {editId === blog.id ? (
+                      <input
+                        name="category"
+                        value={editedBlog.category}
+                        onChange={handleEditChange}
+                        className="p-1 border rounded"
+                      />
+                    ) : (
+                      blog.category
+                    )}
+                  </td>
+                  <td className="p-2 border">
+                    {new Date(blog.date).toLocaleDateString()}
+                  </td>
                   <td className="p-2 space-x-2 border">
-                    <button
-                      onClick={() => handleUpdate(blog.id)}
-                      className="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(blog.id)}
-                      className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
+                    {editId === blog.id ? (
+                      <>
+                        <button
+                          onClick={handleSave}
+                          className="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600"
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={handleCancel}
+                          className="px-3 py-1 text-white bg-gray-500 rounded hover:bg-gray-600"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleEditClick(blog)}
+                          className="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(blog.id)}
+                          className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
